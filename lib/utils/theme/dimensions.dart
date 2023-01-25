@@ -6,6 +6,12 @@ class Dimensions {
   static double screenWidth =
       MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.height;
 
+// Carousel Image Container
+  static double carouselImageHeight = screenHeight / 3.452;
+  static double productItemHeight = screenHeight / 4.975;
+  static double productItemWidth = screenHeight / 5.638;
+  static double arrivalProductItemHeight = screenHeight / 3.383;
+
   // Dynamic Sizes for Padding and Margin
   static double height8 = screenHeight / 105.714;
   static double height16 = screenHeight / 52.857;
@@ -20,9 +26,9 @@ class Dimensions {
 
   // Dynamic Sizes for FontSize
   static double font10 = screenHeight / 84.571;
-  static double font16 = screenHeight / 52.857;
+  static double font12 = screenHeight / 70.476;
   static double font13 = screenHeight / 65.055;
-  static double font17 = screenHeight / 49.748;
+  static double font14 = screenHeight / 60.408;
   static double font26 = screenHeight / 32.527;
 
   // Dynamic Sizes for BorderRadius
