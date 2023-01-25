@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:garifie_client/core/providers/carousel.dart';
 import 'package:garifie_client/ui/pages/home/widgets/dots_indicator.dart';
 import 'package:garifie_client/ui/shared/widgets/product_item.dart';
+import 'package:garifie_client/utils/routes/app_pages.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class HomeView extends ConsumerStatefulWidget {
@@ -110,7 +112,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   borderRadius: BorderRadius.circular(Dimensions.radius10),
                   enableFeedback: true,
                   onTap: () {
-                    // SSDetailScreen(img: list[index].img).launch(context);
+                    context.pushNamed(Routes.productDetail);
                   },
                   child: const ProductItem(),
                 );

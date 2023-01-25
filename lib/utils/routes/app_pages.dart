@@ -3,6 +3,7 @@ import 'package:garifie_client/ui/pages/account/views/account_view.dart';
 import 'package:garifie_client/ui/pages/cart/views/cart_view.dart';
 import 'package:garifie_client/ui/pages/dashboard/views/dashboard_view.dart';
 import 'package:garifie_client/ui/pages/home/views/home_view.dart';
+import 'package:garifie_client/ui/pages/home/views/product_detail_view.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_routes.dart';
@@ -30,6 +31,17 @@ class AppPages {
                 key: state.pageKey,
               ),
             ),
+            routes: [
+              GoRoute(
+                name: Routes.productDetail,
+                path: Routes.productDetail,
+                pageBuilder: (_, state) => NoTransitionPage(
+                  child: ProductDetailView(
+                    key: state.pageKey,
+                  ),
+                ),
+              ),
+            ],
           ),
           GoRoute(
             name: Routes.account,

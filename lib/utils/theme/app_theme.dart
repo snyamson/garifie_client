@@ -80,7 +80,7 @@ class AppTheme {
   ).copyWith(
     pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
-          TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           TargetPlatform.linux: OpenUpwardsPageTransitionsBuilder(),
           TargetPlatform.macOS: OpenUpwardsPageTransitionsBuilder(),

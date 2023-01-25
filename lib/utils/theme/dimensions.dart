@@ -11,6 +11,7 @@ class Dimensions {
   static double productItemHeight = screenHeight / 4.975;
   static double productItemWidth = screenHeight / 5.638;
   static double arrivalProductItemHeight = screenHeight / 3.383;
+  static double productDetailImageHeight = screenHeight / 3.132;
 
   // Dynamic Sizes for Padding and Margin
   static double height8 = screenHeight / 105.714;
