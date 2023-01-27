@@ -47,6 +47,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
+            // CAROUSEL START
             CarouselSlider.builder(
               carouselController: ref
                   .read(carouselNotifierProvider.notifier)
@@ -80,10 +81,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
             ),
             SizedBox(height: Dimensions.height16),
             DotsIndicator(images: carouselItems),
+            // CAROUSEL END
+            // BEST OF GARI FIE START
             Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: Dimensions.width16,
+              padding: EdgeInsets.only(
+                left: Dimensions.width16,
+                bottom: Dimensions.height8 / 2,
+                top: Dimensions.height16,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,6 +109,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   left: Dimensions.width16, right: Dimensions.width16),
               physics: const BouncingScrollPhysics(),
               itemCount: 4,
+              spacing: 8,
               itemBuilder: (_, index) {
                 return InkWell(
                   highlightColor: Colors.transparent,
@@ -119,22 +124,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
               },
             ),
             SizedBox(height: Dimensions.height16),
+            // BEST OF GARI FIE END
+            //  PROMOTION START
             Padding(
               padding: EdgeInsets.only(
                 left: Dimensions.width16,
-                bottom: Dimensions.height8,
-              ),
-              child: Text(
-                "New Arrivals",
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.clip,
-                style: boldTextStyle(),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: Dimensions.width16,
-                bottom: Dimensions.height8,
                 right: Dimensions.width16,
               ),
               child: InkWell(
@@ -158,6 +152,57 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 ),
               ),
             ),
+            SizedBox(height: Dimensions.height8),
+            //  PROMOTION END
+            // NEW ARRIVAL START
+            Padding(
+              padding: EdgeInsets.only(
+                left: Dimensions.width16,
+                bottom: Dimensions.height8 / 2,
+                top: Dimensions.height16,
+              ),
+              child: Text(
+                "New Arrivals",
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: boldTextStyle(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              child: Wrap(
+                runSpacing: 16,
+                spacing: 16,
+                children: [
+                  InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      // Go to Details
+                    },
+                    child: const ProductItem(),
+                  ),
+                  InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      // Go to Details
+                    },
+                    child: const ProductItem(),
+                  ),
+                  InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      // Go to Details
+                    },
+                    child: const ProductItem(),
+                  ),
+                ],
+              ),
+            ),
+
+            // NEW ARRIVAL END
           ],
         ),
       ),

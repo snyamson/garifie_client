@@ -18,14 +18,13 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: context.width() / 2 - 53,
+      width: context.width() / 2 - 24,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: Dimensions.productItemHeight,
-            width: Dimensions.productItemWidth,
+            height: Dimensions.productItemHeight + Dimensions.height16 - 6,
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.2),
             ),
@@ -34,20 +33,25 @@ class ProductItem extends StatelessWidget {
                 img != null
                     ? Image.network(
                         img!,
-                        height: Dimensions.productItemHeight,
-                        width: Dimensions.productItemWidth,
+                        height: Dimensions.productItemHeight +
+                            Dimensions.height16 -
+                            6,
+                        width: context.width() / 2 - 24,
                         fit: BoxFit.cover,
                       )
                     : Image.asset(
                         'assets/images/coconut_gari.jpg',
-                        height: Dimensions.productItemHeight,
-                        width: Dimensions.productItemWidth,
+                        height: Dimensions.productItemHeight +
+                            Dimensions.height16 -
+                            6,
+                        width: context.width() / 2 - 24,
                         fit: BoxFit.cover,
                       ),
                 Align(
                   alignment: Alignment.topRight,
                   child: Container(
-                    margin: const EdgeInsets.only(right: 8, top: 4),
+                    margin: EdgeInsets.only(
+                        right: Dimensions.width8, top: Dimensions.height8 / 2),
                     height: Dimensions.height32 - 2,
                     width: Dimensions.width32 - 2,
                     alignment: Alignment.center,
@@ -65,28 +69,25 @@ class ProductItem extends StatelessWidget {
           ),
           SizedBox(height: Dimensions.height8 / 2),
           Text(
-            subtitle ?? 'Best of Gari Fie Gh',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            'subtitle!',
             style: secondaryTextStyle(
               size: Dimensions.font12.toInt(),
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: Dimensions.height8 / 2),
           SizedBox(
             width: context.width() / 2 - 12,
             child: Text(
-              title ?? 'Gari Name',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              'title!',
+              maxLines: 2,
               style: boldTextStyle(
                 size: Dimensions.font14.toInt(),
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: Dimensions.height8 / 2),
           Text(
-            amount != null ? 'GHs $amount' : 'GHs 12.00',
+            amount ?? "GHs 12.00",
             style: secondaryTextStyle(
               size: Dimensions.font12.toInt(),
             ),
@@ -94,5 +95,83 @@ class ProductItem extends StatelessWidget {
         ],
       ),
     );
+
+    // return SizedBox(
+    //   width: context.width() / 2 - 24,
+    //   child: Column(
+    //     mainAxisAlignment: MainAxisAlignment.start,
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       Container(
+    //         height: Dimensions.productItemHeight,
+    //         width: Dimensions.productItemWidth,
+    //         decoration: BoxDecoration(
+    //           color: Colors.grey.withOpacity(0.2),
+    //         ),
+    //         child: Stack(
+    //           children: [
+    //             img != null
+    //                 ? Image.network(
+    //                     img!,
+    //                     height: Dimensions.productItemHeight,
+    //                     width: Dimensions.productItemWidth,
+    //                     fit: BoxFit.cover,
+    //                   )
+    //                 : Image.asset(
+    //                     'assets/images/coconut_gari.jpg',
+    //                     height: Dimensions.productItemHeight,
+    //                     width: Dimensions.productItemWidth,
+    //                     fit: BoxFit.cover,
+    //                   ),
+    //             Align(
+    //               alignment: Alignment.topRight,
+    //               child: Container(
+    //                 margin: const EdgeInsets.only(right: 8, top: 4),
+    //                 height: Dimensions.height32 - 2,
+    //                 width: Dimensions.width32 - 2,
+    //                 alignment: Alignment.center,
+    //                 decoration: BoxDecoration(
+    //                   borderRadius:
+    //                       BorderRadius.circular(Dimensions.radius10 * 2),
+    //                   color: context.cardColor,
+    //                 ),
+    //                 child: Icon(Icons.favorite,
+    //                     color: Colors.red, size: Dimensions.iconSize17),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       SizedBox(height: Dimensions.height8 / 2),
+    //       Text(
+    //         subtitle ?? 'Best of Gari Fie Gh',
+    //         maxLines: 1,
+    //         overflow: TextOverflow.ellipsis,
+    //         style: secondaryTextStyle(
+    //           size: Dimensions.font12.toInt(),
+    //         ),
+    //       ),
+    //       const SizedBox(height: 4),
+    //       SizedBox(
+    //         width: context.width() / 2 - 12,
+    //         child: Text(
+    //           title ?? 'Gari Name',
+    //           maxLines: 1,
+    //           overflow: TextOverflow.ellipsis,
+    //           style: boldTextStyle(
+    //             size: Dimensions.font14.toInt(),
+    //           ),
+    //         ),
+    //       ),
+    //       const SizedBox(height: 4),
+    //       Text(
+    //         amount != null ? 'GHs $amount' : 'GHs 12.00',
+    //         style: secondaryTextStyle(
+    //           size: Dimensions.font12.toInt(),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }

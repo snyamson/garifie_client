@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:garifie_client/ui/shared/widgets/button.dart';
+import 'package:garifie_client/utils/routes/app_pages.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class CartView extends StatelessWidget {
@@ -142,6 +144,7 @@ class CartView extends StatelessWidget {
               context: context,
               onPressed: () {
                 //SSBillingAddressScreen().launch(context);
+                context.pushNamed(Routes.checkout);
               },
               title: 'Checkout',
             ),

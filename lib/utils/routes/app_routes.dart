@@ -12,6 +12,7 @@ abstract class Routes {
   static const admin = _Paths.admin;
   static const product = _Paths.product;
   static const productDetail = _Paths.productDetail;
+  static const checkout = _Paths.checkout;
   static const addProduct = _Paths.addProduct;
   static const banner = _Paths.banner;
   static const addBanner = _Paths.addBanner;
@@ -31,6 +32,7 @@ abstract class _Paths {
   static const admin = 'admin';
   static const product = 'product';
   static const productDetail = 'product-detail';
+  static const checkout = 'checkout';
   static const addProduct = 'add-product';
   static const banner = 'banner';
   static const addBanner = 'add-banner';

@@ -45,6 +45,8 @@ dependencies:
   flutter_spinkit: ^5.1.0
   modal_bottom_sheet: ^2.1.2
   carousel_slider: ^4.2.1
+  im_stepper: ^1.0.1+1
+  postgrest: ^1.2.2
 
 dev_dependencies:
   flutter_test:
