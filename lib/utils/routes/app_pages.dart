@@ -4,7 +4,7 @@ import 'package:garifie_client/ui/pages/cart/views/cart_view.dart';
 import 'package:garifie_client/ui/pages/checkout/views/check_out_view.dart';
 import 'package:garifie_client/ui/pages/dashboard/views/dashboard_view.dart';
 import 'package:garifie_client/ui/pages/home/views/home_view.dart';
-import 'package:garifie_client/ui/pages/home/views/product_detail_view.dart';
+import 'package:garifie_client/ui/pages/product_detail/views/product_detail_view.dart';
 import 'package:go_router/go_router.dart';
 
 part 'app_routes.dart';

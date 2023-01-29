@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:garifie_client/ui/pages/product_detail/widgets/variety_badge.dart';
 import 'package:garifie_client/ui/shared/widgets/button.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class ProductDetailView extends StatelessWidget {
+class ProductDetailView extends StatefulWidget {
   const ProductDetailView({super.key});
 
+  @override
+  State<ProductDetailView> createState() => _ProductDetailViewState();
+}
+
+class _ProductDetailViewState extends State<ProductDetailView> {
+  int index = 0;
+  final List<String> img = [
+    'assets/images/coconut_gari.jpg',
+    'assets/images/soya_gari.jpg',
+    'assets/images/crispy_gari.jpg'
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,18 +58,63 @@ class ProductDetailView extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3)),
-              child: Image(
-                image: const AssetImage('assets/images/coconut_gari.jpg'),
-                height: Dimensions.productDetailImageHeight,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
+              decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2)),
+              child: Stack(
+                children: [
+                  Image(
+                    image: AssetImage(img[index]),
+                    height: Dimensions.productDetailImageHeight + 10,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    bottom: Dimensions.height8,
+                    left: Dimensions.width16,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: img.map((e) {
+                        return InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          radius: 8,
+                          onTap: () {
+                            setState(() {
+                              index = img.indexOf(e);
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: context.cardColor,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: index == img.indexOf(e)
+                                    ? Colors.red
+                                    : Colors.transparent,
+                              ),
+                            ),
+                            child: Image(
+                              image: AssetImage(e.validate()),
+                              height: 40,
+                              width: 40,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ).paddingRight(8);
+                      }).toList(),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -103,62 +160,20 @@ class ProductDetailView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        margin:
-                            const EdgeInsets.only(right: 8, top: 4, bottom: 4),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Text("600 g",
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.clip,
-                            style: boldTextStyle(size: 12)),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.all(4),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Text("1.2 kg",
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.clip,
-                            style: boldTextStyle(size: 12)),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.all(4),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 4),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          border: Border.all(
-                              color: const Color(0x4d9e9e9e), width: 1),
-                        ),
-                        child: Text("1.8 kg",
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.clip,
-                            style: boldTextStyle(size: 12)),
-                      ),
+                    children: const [
+                      VarietyBadge(label: '400g'),
+                      VarietyBadge(label: '600g'),
+                      VarietyBadge(label: '1.2kg'),
+                      VarietyBadge(label: '1.8kg'),
                     ],
                   ),
                   SizedBox(height: Dimensions.height16),
-                  Text("Description",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: boldTextStyle()),
+                  Text(
+                    "Description",
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.clip,
+                    style: boldTextStyle(),
+                  ),
                   SizedBox(height: Dimensions.height8),
                   Text(
                       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -166,27 +181,33 @@ class ProductDetailView extends StatelessWidget {
                       overflow: TextOverflow.clip,
                       style: secondaryTextStyle()),
                   SizedBox(height: Dimensions.height16),
-                  Text("Ingredients",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: boldTextStyle()),
+                  Text(
+                    "Ingredients",
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.clip,
+                    style: boldTextStyle(),
+                  ),
                   SizedBox(height: Dimensions.height8),
                   Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: secondaryTextStyle()),
+                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.clip,
+                    style: secondaryTextStyle(),
+                  ),
                   SizedBox(height: Dimensions.height16),
-                  Text("Health Benefit",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: boldTextStyle()),
+                  Text(
+                    "Health Benefit",
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.clip,
+                    style: boldTextStyle(),
+                  ),
                   SizedBox(height: Dimensions.height8),
                   Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.clip,
-                      style: secondaryTextStyle()),
+                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.clip,
+                    style: secondaryTextStyle(),
+                  ),
                 ],
               ),
             ),

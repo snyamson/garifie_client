@@ -143,7 +143,6 @@ class CartView extends StatelessWidget {
             Button(
               context: context,
               onPressed: () {
-                //SSBillingAddressScreen().launch(context);
                 context.pushNamed(Routes.checkout);
               },
               title: 'Checkout',

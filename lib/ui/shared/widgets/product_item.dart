@@ -28,44 +28,21 @@ class ProductItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.2),
             ),
-            child: Stack(
-              children: [
-                img != null
-                    ? Image.network(
-                        img!,
-                        height: Dimensions.productItemHeight +
-                            Dimensions.height16 -
-                            6,
-                        width: context.width() / 2 - 24,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        'assets/images/coconut_gari.jpg',
-                        height: Dimensions.productItemHeight +
-                            Dimensions.height16 -
-                            6,
-                        width: context.width() / 2 - 24,
-                        fit: BoxFit.cover,
-                      ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        right: Dimensions.width8, top: Dimensions.height8 / 2),
-                    height: Dimensions.height32 - 2,
-                    width: Dimensions.width32 - 2,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.radius10 * 2),
-                      color: context.cardColor,
-                    ),
-                    child: Icon(Icons.favorite,
-                        color: Colors.red, size: Dimensions.iconSize17),
+            child: img != null
+                ? Image.network(
+                    img!,
+                    height:
+                        Dimensions.productItemHeight + Dimensions.height16 - 6,
+                    width: context.width() / 2 - 24,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/images/coconut_gari.jpg',
+                    height:
+                        Dimensions.productItemHeight + Dimensions.height16 - 6,
+                    width: context.width() / 2 - 24,
+                    fit: BoxFit.cover,
                   ),
-                ),
-              ],
-            ),
           ),
           SizedBox(height: Dimensions.height8 / 2),
           Text(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:garifie_client/ui/shared/widgets/app_text_input.dart';
 import 'package:garifie_client/ui/shared/widgets/button.dart';
+import 'package:garifie_client/utils/theme/dimensions.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class CheckOutView extends StatelessWidget {
@@ -20,127 +22,51 @@ class CheckOutView extends StatelessWidget {
           child: Icon(Icons.arrow_back_ios, color: context.iconColor, size: 20),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const Icon(Icons.location_on,
-                    color: Color(0xff808080), size: 24),
-                Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  width: 5,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff000000),
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0xff000000), width: 1),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  width: 5,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff000000),
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0xff000000), width: 1),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  width: 5,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff000000),
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0xff000000), width: 1),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  width: 5,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff000000),
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0xff000000), width: 1),
-                  ),
-                ),
-                const Icon(Icons.credit_card,
-                    color: Color(0xff808080), size: 24),
-                Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  width: 5,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff000000),
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  width: 5,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff000000),
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  width: 5,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff000000),
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  width: 5,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff000000),
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(color: const Color(0x4d9e9e9e), width: 1),
-                  ),
-                ),
-                const Icon(Icons.verified, color: Color(0xff808080), size: 24),
-              ],
+            SizedBox(height: Dimensions.height16),
+            Text(
+              "Delivery Address",
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.clip,
+              style: boldTextStyle(),
             ),
-            //    const PurchaseMoreScreen().withHeight(context.height() * 0.7),
+            SizedBox(height: Dimensions.height8),
+            const AppTextInput(name: 'Delivery Address', maxLines: 7),
+
+            SizedBox(height: Dimensions.height16),
+            Text(
+              "Delivery Option",
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.clip,
+              style: boldTextStyle(),
+            ),
+            SizedBox(height: Dimensions.height8),
+            // TODO CONTENT 2
+
+            SizedBox(height: Dimensions.height16),
+            Text(
+              "Summary",
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.clip,
+              style: boldTextStyle(),
+            ),
+            SizedBox(height: Dimensions.height8),
+            Text(
+                "Username \n Request .. variety.. of ..product name.. with total amount ..price.. to be delivered",
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.clip,
+                style: secondaryTextStyle()),
+            SizedBox(height: Dimensions.height32),
             Button(
               context: context,
-              title: 'Continue shopping',
-              onPressed: () {
-                //    SSDashBoardScreen().launch(context);
-              },
+              title: 'Place Order',
+              onPressed: () {},
             ),
           ],
         ),
