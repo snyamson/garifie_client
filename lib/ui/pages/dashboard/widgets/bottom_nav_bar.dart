@@ -2,9 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:garifie_client/core/providers/dashboard.dart';
-import 'package:garifie_client/utils/routes/app_pages.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class BottomNavBar extends ConsumerStatefulWidget {
@@ -64,18 +62,5 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
 
   void onTap(index) {
     ref.read(dashboardNotifierProvider.notifier).onChangeIndex(index);
-    switch (index) {
-      case 0:
-        context.go(Routes.home);
-        break;
-      case 1:
-        context.go(Routes.account);
-        break;
-      case 2:
-        context.go(Routes.cart);
-        break;
-      default:
-        context.go(Routes.home);
-    }
   }
 }

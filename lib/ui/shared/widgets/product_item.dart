@@ -46,7 +46,9 @@ class ProductItem extends StatelessWidget {
           ),
           SizedBox(height: Dimensions.height8 / 2),
           Text(
-            'subtitle!',
+            subtitle ?? 'subtitle!',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: secondaryTextStyle(
               size: Dimensions.font12.toInt(),
             ),
@@ -55,7 +57,7 @@ class ProductItem extends StatelessWidget {
           SizedBox(
             width: context.width() / 2 - 12,
             child: Text(
-              'title!',
+              title ?? 'title!',
               maxLines: 2,
               style: boldTextStyle(
                 size: Dimensions.font14.toInt(),
@@ -64,7 +66,7 @@ class ProductItem extends StatelessWidget {
           ),
           SizedBox(height: Dimensions.height8 / 2),
           Text(
-            amount ?? "GHs 12.00",
+            'Ghs $amount.00',
             style: secondaryTextStyle(
               size: Dimensions.font12.toInt(),
             ),

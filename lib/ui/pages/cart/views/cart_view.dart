@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:garifie_client/core/providers/product.dart';
 import 'package:garifie_client/ui/shared/widgets/button.dart';
-import 'package:garifie_client/utils/routes/app_pages.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class CartView extends StatelessWidget {
+class CartView extends ConsumerWidget {
   const CartView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -142,8 +142,14 @@ class CartView extends StatelessWidget {
             SizedBox(height: Dimensions.height16),
             Button(
               context: context,
-              onPressed: () {
-                context.pushNamed(Routes.checkout);
+              onPressed: () async {
+                //context.pushNamed(Routes.checkout);
+                await ref
+                    .read(productProvider)
+                    .getProductById('0adea8d9-f7a0-4027-aa07-b9706c5654fe');
+                // List<Product> res =
+                //     await ref.read(productProvider).getProducts();
+                // print(res);
               },
               title: 'Checkout',
             ),

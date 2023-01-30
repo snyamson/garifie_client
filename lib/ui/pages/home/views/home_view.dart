@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:garifie_client/core/providers/carousel.dart';
+import 'package:garifie_client/core/providers/product.dart';
 import 'package:garifie_client/ui/pages/home/widgets/dots_indicator.dart';
 import 'package:garifie_client/ui/shared/widgets/product_item.dart';
 import 'package:garifie_client/utils/routes/app_pages.dart';
@@ -26,7 +28,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    ref.read(productListProvider.future);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final products = ref.watch(productListProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -104,25 +113,50 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
             ),
             SizedBox(height: Dimensions.height16),
-            HorizontalList(
-              padding: EdgeInsets.only(
-                  left: Dimensions.width16, right: Dimensions.width16),
-              physics: const BouncingScrollPhysics(),
-              itemCount: 4,
-              spacing: 8,
-              itemBuilder: (_, index) {
-                return InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  borderRadius: BorderRadius.circular(Dimensions.radius10),
-                  enableFeedback: true,
-                  onTap: () {
-                    context.pushNamed(Routes.productDetail);
-                  },
-                  child: const ProductItem(),
-                );
-              },
+            products.when(
+              data: (data) => HorizontalList(
+                padding: EdgeInsets.only(
+                    left: Dimensions.width16, right: Dimensions.width16),
+                physics: const BouncingScrollPhysics(),
+                itemCount: data.length,
+                spacing: 8,
+                itemBuilder: (_, index) {
+                  final product = data[index];
+
+                  return InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    borderRadius: BorderRadius.circular(Dimensions.radius10),
+                    enableFeedback: true,
+                    onTap: () {
+                      context.pushNamed(
+                        Routes.productDetail,
+                        params: {'productId': product.id!},
+                      );
+                    },
+                    child: ProductItem(
+                      img: product.productImg,
+                      title: product.name,
+                      subtitle: product.description,
+                      amount: product.variant.isNotEmpty
+                          ? product.variant.first.amount.toString()
+                          : 'Ghs 10.00',
+                    ),
+                  );
+                },
+              ),
+              error: (error, _) => SizedBox(
+                  height: Dimensions.productItemHeight,
+                  child: Center(child: Text(error.toString()))),
+              loading: () => SizedBox(
+                height: Dimensions.productItemHeight,
+                child: SpinKitDoubleBounce(
+                  color: Colors.grey.withOpacity(0.01),
+                  size: 48,
+                ),
+              ),
             ),
+
             SizedBox(height: Dimensions.height16),
             // BEST OF GARI FIE END
             //  PROMOTION START
