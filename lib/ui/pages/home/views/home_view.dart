@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:garifie_client/core/providers/carousel.dart';
+import 'package:garifie_client/core/providers/current_product.dart';
 import 'package:garifie_client/core/providers/product.dart';
 import 'package:garifie_client/ui/pages/home/widgets/dots_indicator.dart';
 import 'package:garifie_client/ui/shared/widgets/product_item.dart';
@@ -129,9 +130,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     borderRadius: BorderRadius.circular(Dimensions.radius10),
                     enableFeedback: true,
                     onTap: () {
+                      ref.read(currentProductNotifier.notifier).update(
+                            (state) => state = product,
+                          );
+                      // ref
+                      //   .read(currentProductVariantProvider.notifier)
+//.update((state) => state = product.variant.first);
                       context.pushNamed(
                         Routes.productDetail,
-                        params: {'productId': product.id!},
+                        extra: product,
                       );
                     },
                     child: ProductItem(

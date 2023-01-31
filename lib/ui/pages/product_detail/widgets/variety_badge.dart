@@ -4,9 +4,11 @@ import 'package:nb_utils/nb_utils.dart';
 
 class VarietyBadge extends StatelessWidget {
   final String label;
+  final BoxBorder? border;
   const VarietyBadge({
     super.key,
     required this.label,
+    this.border,
   });
 
   @override
@@ -23,7 +25,7 @@ class VarietyBadge extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(Dimensions.radius15 + 1),
-        border: Border.all(color: const Color(0x4d9e9e9e), width: 1),
+        border: border ?? Border.all(color: const Color(0x4d9e9e9e), width: 1),
       ),
       child: Text(
         label,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garifie_client/core/models/product.dart';
 import 'package:garifie_client/ui/pages/dashboard/views/dashboard_view.dart';
 import 'package:garifie_client/ui/pages/home/views/home_view.dart';
 import 'package:garifie_client/ui/pages/product_detail/views/product_detail_view.dart';
@@ -31,9 +32,8 @@ class AppPages {
         routes: [
           GoRoute(
             name: Routes.productDetail,
-            path: '${Routes.productDetail}/:productId',
-            builder: (_, state) =>
-                ProductDetailView(productId: state.params['productId']!),
+            path: Routes.productDetail,
+            builder: (_, state) => const ProductDetailView(),
           ),
         ],
       ),
