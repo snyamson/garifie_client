@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:garifie_client/core/providers/carousel.dart';
 import 'package:garifie_client/core/providers/current_product.dart';
 import 'package:garifie_client/core/providers/product.dart';
 import 'package:garifie_client/ui/pages/home/widgets/dots_indicator.dart';
+import 'package:garifie_client/ui/shared/widgets/best_product_loader.dart';
 import 'package:garifie_client/ui/shared/widgets/product_item.dart';
 import 'package:garifie_client/utils/routes/app_pages.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
@@ -68,6 +68,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   margin: EdgeInsets.only(
                     left: context.height() / context.height(),
                     right: context.height() / context.height(),
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius10),
                   ),
                   child: Image(
                     image: AssetImage(carouselItems[index]),
@@ -133,9 +137,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       ref.read(currentProductNotifier.notifier).update(
                             (state) => state = product,
                           );
-                      // ref
-                      //   .read(currentProductVariantProvider.notifier)
-//.update((state) => state = product.variant.first);
                       context.pushNamed(
                         Routes.productDetail,
                         extra: product,
@@ -147,7 +148,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       subtitle: product.description,
                       amount: product.variant.isNotEmpty
                           ? product.variant.first.amount.toString()
-                          : 'Ghs 10.00',
+                          : '10',
                     ),
                   );
                 },
@@ -155,46 +156,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
               error: (error, _) => SizedBox(
                   height: Dimensions.productItemHeight,
                   child: Center(child: Text(error.toString()))),
-              loading: () => SizedBox(
-                height: Dimensions.productItemHeight,
-                child: SpinKitDoubleBounce(
-                  color: Colors.grey.withOpacity(0.01),
-                  size: 48,
-                ),
-              ),
+              loading: () => const BestProductLoader(),
             ),
-
             SizedBox(height: Dimensions.height16),
             // BEST OF GARI FIE END
-            //  PROMOTION START
-            Padding(
-              padding: EdgeInsets.only(
-                left: Dimensions.width16,
-                right: Dimensions.width16,
-              ),
-              child: InkWell(
-                onTap: () {
-                  // SSProductScreen(img: img).launch(context!);
-                },
-                child: Stack(
-                  children: [
-                    Image(
-                      image: const AssetImage(
-                          'assets/images/strawberry_gari_banner.jpg'),
-                      height: Dimensions.arrivalProductItemHeight,
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.cover,
-                    ),
-                    Container(
-                      height: Dimensions.arrivalProductItemHeight,
-                      decoration: const BoxDecoration(color: Colors.black12),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: Dimensions.height8),
-            //  PROMOTION END
+
             // NEW ARRIVAL START
             Padding(
               padding: EdgeInsets.only(
@@ -209,40 +175,56 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 style: boldTextStyle(),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Wrap(
-                runSpacing: 16,
-                spacing: 16,
-                children: [
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
+            Responsive(
+              mobile: ListView.separated(
+                padding: EdgeInsets.only(
+                  top: Dimensions.height16,
+                  left: Dimensions.width16,
+                  right: Dimensions.width16,
+                ),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 5,
+                separatorBuilder: (_, __) => SizedBox(
+                  height: Dimensions.height8,
+                ),
+                itemBuilder: (_, index) {
+                  return InkWell(
                     onTap: () {
-                      // Go to Details
+                      // SSProductScreen(img: img).launch(context!);
                     },
-                    child: const ProductItem(),
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      // Go to Details
-                    },
-                    child: const ProductItem(),
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      // Go to Details
-                    },
-                    child: const ProductItem(),
-                  ),
-                ],
+                    child: Stack(
+                      children: [
+                        Container(
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.radius10),
+                          ),
+                          child: Image(
+                            image: const AssetImage(
+                                'assets/images/strawberry_gari_banner.jpg'),
+                            height: Dimensions.arrivalProductItemHeight,
+                            width: MediaQuery.of(context).size.width,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Container(
+                          height: Dimensions.arrivalProductItemHeight,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.radius10),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
 
+            SizedBox(height: Dimensions.height8),
             // NEW ARRIVAL END
           ],
         ),
