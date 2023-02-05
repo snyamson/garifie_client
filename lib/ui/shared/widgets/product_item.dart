@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garifie_client/ui/shared/widgets/common_cache_image.dart';
 import 'package:garifie_client/ui/shared/widgets/currency_sign.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -28,15 +29,15 @@ class ProductItem extends StatelessWidget {
             height: Dimensions.productItemHeight + Dimensions.height16 - 6,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(Dimensions.radius10)),
+              color: Colors.grey.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(Dimensions.radius10),
+            ),
             child: img != null
-                ? Image.network(
+                ? commonCacheImageWidget(
                     img!,
                     height:
                         Dimensions.productItemHeight + Dimensions.height16 - 6,
                     width: context.width() / 2 - 34,
-                    fit: BoxFit.cover,
                   )
                 : Image.asset(
                     'assets/images/coconut_gari.jpg',

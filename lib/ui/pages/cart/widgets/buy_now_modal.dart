@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:garifie_client/core/models/cart.dart';
+import 'package:garifie_client/core/providers/cart.dart';
 import 'package:garifie_client/core/providers/current_product.dart';
+import 'package:garifie_client/core/providers/quantity.dart';
 import 'package:garifie_client/ui/pages/product_detail/widgets/variety_badge.dart';
 import 'package:garifie_client/ui/shared/widgets/button.dart';
+import 'package:garifie_client/ui/shared/widgets/common_cache_image.dart';
+import 'package:garifie_client/ui/shared/widgets/currency_sign.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -14,6 +19,7 @@ class BuyNowModal extends ConsumerWidget {
     final currentProduct = ref.watch(currentProductNotifier);
     final currentProductVariant = ref.watch(currentProductVariantProvider);
     final currentProductImageUrl = ref.watch(currentProductImgProvider);
+    final quantity = ref.watch(quantityProvider);
 
     return SizedBox(
       height: context.height() / 1.1,
@@ -30,17 +36,15 @@ class BuyNowModal extends ConsumerWidget {
                     color: Colors.grey.withOpacity(0.2),
                   ),
                   child: currentProduct.variant.isNotEmpty
-                      ? Image(
-                          image: NetworkImage(currentProductImageUrl),
+                      ? commonCacheImageWidget(
+                          currentProductImageUrl,
                           height: Dimensions.productDetailImageHeight + 10,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
+                          width: context.width(),
                         )
-                      : Image(
-                          image: NetworkImage(currentProduct.productImg),
+                      : commonCacheImageWidget(
+                          currentProduct.productImg,
                           height: Dimensions.productDetailImageHeight + 10,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
+                          width: context.width(),
                         ),
                 ),
                 Positioned(
@@ -52,8 +56,8 @@ class BuyNowModal extends ConsumerWidget {
                     },
                     child: Container(
                       alignment: Alignment.center,
-                      height: Dimensions.height50,
-                      width: Dimensions.width50,
+                      height: Dimensions.height50 - 10,
+                      width: Dimensions.width50 - 10,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius:
@@ -82,12 +86,13 @@ class BuyNowModal extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                            currentProduct.variant.isNotEmpty
-                                ? 'Ghs ${currentProductVariant!.amount}.00'
-                                : "not there",
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: boldTextStyle(size: 35)),
+                          currentProduct.variant.isNotEmpty
+                              ? '${currencySign().currencySymbol} ${currentProductVariant!.amount}.00'
+                              : "not there",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.clip,
+                          style: boldTextStyle(size: 35),
+                        ),
                         const Text('In Stock')
                       ],
                     ),
@@ -162,8 +167,74 @@ class BuyNowModal extends ConsumerWidget {
                         size: Dimensions.font14.toInt(),
                       ),
                     ),
+                    SizedBox(height: Dimensions.height8),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: quantity > 1
+                              ? () {
+                                  ref.read(quantityProvider.notifier).state--;
+                                }
+                              : null,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade100,
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.radius15),
+                            ),
+                            height: 30,
+                            width: 30,
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.remove,
+                              size: Dimensions.iconSize17,
+                              color: quantity <= 1
+                                  ? Colors.black12
+                                  : Colors.black54,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: Dimensions.width8),
+                        Text(
+                          quantity.toString(),
+                          style: boldTextStyle(
+                            size: Dimensions.font14.toInt(),
+                          ),
+                        ),
+                        SizedBox(width: Dimensions.width8),
+                        GestureDetector(
+                          onTap: () {
+                            ref.read(quantityProvider.notifier).state++;
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade100,
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.radius15),
+                            ),
+                            height: 30,
+                            width: 30,
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.add,
+                              size: Dimensions.iconSize17,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: Dimensions.height16),
-                    const Text('Free Shipping'),
+                    Text(
+                      "Delivery",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.clip,
+                      style: boldTextStyle(
+                        size: Dimensions.font14.toInt(),
+                      ),
+                    ),
+                    SizedBox(height: Dimensions.height8),
+                    const Text('Free Delivery'),
                   ],
                 ),
               ),
@@ -179,7 +250,24 @@ class BuyNowModal extends ConsumerWidget {
           child: Button(
             context: context,
             title: 'Continue',
-            onPressed: () {},
+            onPressed: () {
+              final Cart cartItem = Cart(
+                id: currentProduct.id!,
+                name: currentProduct.name,
+                description: currentProduct.description,
+                type: currentProduct.variant.isNotEmpty
+                    ? currentProductVariant!.type
+                    : 'None',
+                quantity: quantity,
+                amount: currentProduct.variant.isNotEmpty
+                    ? currentProductVariant!.amount
+                    : 10,
+                img: currentProduct.variant.isNotEmpty
+                    ? currentProductVariant!.img
+                    : currentProductImageUrl,
+              );
+              ref.read(cartProvider.notifier).addToCart(cartItem: cartItem);
+            },
           ),
         ),
       ),

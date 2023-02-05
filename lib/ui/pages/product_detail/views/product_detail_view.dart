@@ -4,6 +4,7 @@ import 'package:garifie_client/core/providers/current_product.dart';
 import 'package:garifie_client/ui/pages/cart/widgets/buy_now_modal.dart';
 import 'package:garifie_client/ui/pages/product_detail/widgets/variety_badge.dart';
 import 'package:garifie_client/ui/shared/widgets/button.dart';
+import 'package:garifie_client/ui/shared/widgets/common_cache_image.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -58,13 +59,10 @@ class ProductDetailView extends ConsumerWidget {
               child: currentProduct.variant.isNotEmpty
                   ? Stack(
                       children: [
-                        Image(
-                          image: NetworkImage(
-                            currentProductImageUrl,
-                          ),
+                        commonCacheImageWidget(
+                          currentProductImageUrl,
                           height: Dimensions.productDetailImageHeight + 10,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
+                          width: context.width(),
                         ),
                         Positioned(
                           bottom: Dimensions.height8,
@@ -102,17 +100,15 @@ class ProductDetailView extends ConsumerWidget {
                                     ),
                                   ),
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.withOpacity(0.2)),
-                                    height: 40,
-                                    width: 40,
-                                    child: Image(
-                                      image: NetworkImage(e.img.validate()),
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.2)),
                                       height: 40,
                                       width: 40,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                      child: commonCacheImageWidget(
+                                        e.img.validate(),
+                                        height: 40,
+                                        width: 40,
+                                      )),
                                 ),
                               ).paddingRight(8);
                             }).toList(),
@@ -120,11 +116,10 @@ class ProductDetailView extends ConsumerWidget {
                         ),
                       ],
                     )
-                  : Image(
-                      image: NetworkImage(currentProduct.productImg),
+                  : commonCacheImageWidget(
+                      currentProduct.productImg,
                       height: Dimensions.productDetailImageHeight + 10,
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.cover,
+                      width: context.width(),
                     ),
             ),
             Padding(
