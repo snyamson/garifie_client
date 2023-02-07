@@ -8,6 +8,7 @@ import 'package:garifie_client/ui/pages/product_detail/widgets/variety_badge.dar
 import 'package:garifie_client/ui/shared/widgets/button.dart';
 import 'package:garifie_client/ui/shared/widgets/common_cache_image.dart';
 import 'package:garifie_client/ui/shared/widgets/currency_sign.dart';
+import 'package:garifie_client/ui/shared/widgets/show_snack_bar.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -266,7 +267,23 @@ class BuyNowModal extends ConsumerWidget {
                     ? currentProductVariant!.img
                     : currentProductImageUrl,
               );
-              ref.read(cartProvider.notifier).addToCart(cartItem: cartItem);
+              ref.read(cartProvider.notifier).addToCart(
+                    cartItem: cartItem,
+                    onSuccess: () {
+                      showSnackBar(
+                        context,
+                        '${cartItem.name} added to cart',
+                      );
+                      Navigator.pop(context);
+                    },
+                    onError: () {
+                      showSnackBar(
+                        context,
+                        '${cartItem.name} already in cart',
+                      );
+                      Navigator.pop(context);
+                    },
+                  );
             },
           ),
         ),

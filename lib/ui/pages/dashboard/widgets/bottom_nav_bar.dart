@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:garifie_client/core/providers/cart.dart';
 import 'package:garifie_client/core/providers/dashboard.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -16,9 +17,10 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = ref.watch(dashboardNotifierProvider);
+    final cartItemsLength = ref.watch(cartProvider).length;
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             label: '',
             activeIcon: Icon(Icons.home)),
@@ -31,20 +33,32 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
         //     icon: Icon(Icons.favorite_border),
         //     label: '',
         //     activeIcon: Icon(Icons.favorite)),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
             label: '',
             activeIcon: Icon(Icons.person)),
         BottomNavigationBarItem(
-          icon: Badge(
-            badgeContent: Text('2'),
-            child: Icon(Icons.shopping_cart_outlined),
-          ),
+          icon: cartItemsLength != 0
+              ? Badge(
+                  badgeContent: Text(cartItemsLength.toString()),
+                  badgeStyle: const BadgeStyle(
+                    elevation: 0,
+                    badgeColor: Colors.transparent,
+                  ),
+                  child: const Icon(Icons.shopping_cart),
+                )
+              : const Icon(Icons.shopping_cart_outlined),
           label: '',
-          activeIcon: Badge(
-            badgeContent: Text('2'),
-            child: Icon(Icons.shopping_cart),
-          ),
+          activeIcon: cartItemsLength != 0
+              ? Badge(
+                  badgeContent: Text(cartItemsLength.toString()),
+                  badgeStyle: const BadgeStyle(
+                    elevation: 0,
+                    badgeColor: Colors.transparent,
+                  ),
+                  child: const Icon(Icons.shopping_cart),
+                )
+              : const Icon(Icons.shopping_cart),
         ),
       ],
       currentIndex: selectedIndex,

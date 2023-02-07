@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:garifie_client/core/providers/product.dart';
+import 'package:garifie_client/core/providers/auth.dart';
+import 'package:garifie_client/core/providers/cart.dart';
 import 'package:garifie_client/ui/shared/widgets/button.dart';
+import 'package:garifie_client/ui/shared/widgets/common_cache_image.dart';
+import 'package:garifie_client/ui/shared/widgets/currency_sign.dart';
+import 'package:garifie_client/ui/shared/widgets/show_snack_bar.dart';
+import 'package:garifie_client/utils/routes/app_pages.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class CartView extends ConsumerWidget {
@@ -10,6 +16,9 @@ class CartView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cartItems = ref.watch(cartProvider);
+    final cartTotal = ref.watch(cartProvider.notifier).cartTotal();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -27,8 +36,10 @@ class CartView extends ConsumerWidget {
       body: ListView.builder(
         padding: EdgeInsets.all(Dimensions.height16),
         shrinkWrap: true,
-        itemCount: 4,
+        itemCount: cartItems.length,
         itemBuilder: (_, index) {
+          String key = cartItems.keys.elementAt(index);
+          final cartItem = cartItems[key];
           return Padding(
             padding: EdgeInsets.only(
               top: Dimensions.height8,
@@ -38,7 +49,7 @@ class CartView extends ConsumerWidget {
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               onTap: () {
-                // SSDetailScreen(img: list[index].img).launch(context);
+                //TODO: IMPLEMENT GO TO PRODUCT DETAIILS
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -56,55 +67,100 @@ class CartView extends ConsumerWidget {
                     child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(Dimensions.radius10 - 2),
-                      child: const Image(
-                          image: AssetImage('assets/images/coconut_gari.jpg'),
-                          height: 80,
-                          width: 140,
-                          fit: BoxFit.cover),
+                      child: commonCacheImageWidget(
+                        cartItem?.img,
+                        height: 80,
+                        width: 140,
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: Dimensions.height16,
                     width: Dimensions.width16,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        'list[index].name!',
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: boldTextStyle(),
-                      ),
-                      SizedBox(height: Dimensions.height8 / 2),
-                      Text("list[index].subtitle!",
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              cartItem!.name,
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.clip,
+                              style: boldTextStyle(),
+                            ),
+                            SizedBox(width: Dimensions.height32),
+                            GestureDetector(
+                              onTap: () {
+                                ref.read(cartProvider.notifier).removeFromCart(
+                                      cartItem: cartItem,
+                                      onSuccess: () {
+                                        showSnackBar(
+                                          context,
+                                          '${cartItem.name} removed from cart',
+                                        );
+                                      },
+                                    );
+                              },
+                              child: Icon(
+                                Icons.delete_outline_outlined,
+                                color: Colors.grey.shade500,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: Dimensions.height8 / 2),
+                        Text(
+                          cartItem.description,
                           textAlign: TextAlign.start,
-                          overflow: TextOverflow.clip,
-                          style: secondaryTextStyle()),
-                      SizedBox(height: Dimensions.height8 / 2),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'list[index].amount!',
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.clip,
-                            style: boldTextStyle(
-                              size: Dimensions.font14.toInt(),
-                            ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: secondaryTextStyle(),
+                        ),
+                        SizedBox(height: Dimensions.height8 / 2),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Product Type: ',
+                                style: boldTextStyle(
+                                  size: Dimensions.font13.toInt(),
+                                  weight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: cartItem.type,
+                                style: secondaryTextStyle(),
+                              ),
+                            ],
                           ),
-                          SizedBox(width: Dimensions.height32),
-                          Text(
-                            'x1',
-                            style: secondaryTextStyle(
-                              size: Dimensions.font14.toInt(),
+                        ),
+                        SizedBox(height: Dimensions.height8 / 2),
+                        Row(
+                          children: [
+                            Text(
+                              '${currencySign().currencySymbol} ${cartItem.amount}.00',
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.clip,
+                              style: boldTextStyle(
+                                size: Dimensions.font14.toInt(),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            SizedBox(width: Dimensions.height32),
+                            Text(
+                              'x ${cartItem.quantity}',
+                              style: secondaryTextStyle(
+                                size: Dimensions.font14.toInt(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -119,10 +175,10 @@ class CartView extends ConsumerWidget {
           right: Dimensions.width16,
           bottom: Dimensions.height16,
         ),
-        height: context.height() / 5.638,
+        height: context.height() / 6.5,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          //color: context.cardColor,
+          color: context.cardColor,
           boxShadow: defaultBoxShadow(),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(Dimensions.height16),
@@ -135,21 +191,24 @@ class CartView extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('2items', style: secondaryTextStyle()),
-                Text('\$364.00', style: boldTextStyle()),
+                Text('${cartItems.length}', style: secondaryTextStyle()),
+                Text(
+                  '${currencySign().currencySymbol} $cartTotal.00',
+                  style: boldTextStyle(),
+                ),
               ],
             ),
             SizedBox(height: Dimensions.height16),
             Button(
               context: context,
               onPressed: () async {
-                //context.pushNamed(Routes.checkout);
-                await ref
-                    .read(productProvider)
-                    .getProductById('0adea8d9-f7a0-4027-aa07-b9706c5654fe');
-                // List<Product> res =
-                //     await ref.read(productProvider).getProducts();
-                // print(res);
+                final user = await ref.read(authProvider).getAccount();
+                if (user == null) {
+                  // ignore: use_build_context_synchronously
+                  context.pushNamed(Routes.signIn);
+                }
+                // ignore: use_build_context_synchronously
+                context.pushNamed(Routes.confirmOrder);
               },
               title: 'Checkout',
             ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:garifie_client/core/models/cart.dart';
 
@@ -23,17 +24,32 @@ class CartNotifier extends StateNotifier<Map<String, Cart>> {
     );
   }
 
-  void addToCart({required Cart cartItem}) {
+  void addToCart(
+      {required Cart cartItem,
+      required VoidCallback onSuccess,
+      required VoidCallback onError}) {
     if (state.containsKey(cartItem.id)) {
-      print('Item Already in Cart');
+      onError();
     } else {
       state.putIfAbsent(
         cartItem.id,
         () => cartItem,
       );
-      print('added to Cart');
-      print(state);
-      print(cartTotal());
+
+      state = {...state};
+      onSuccess();
     }
+  }
+
+  void removeFromCart({
+    required Cart cartItem,
+    required VoidCallback onSuccess,
+  }) {
+    state.removeWhere(
+      (key, value) => key == cartItem.id.toString(),
+    );
+
+    state = {...state};
+    onSuccess();
   }
 }

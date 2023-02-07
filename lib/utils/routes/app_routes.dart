@@ -5,7 +5,6 @@ abstract class Routes {
 
   static const welcome = _Paths.welcome;
   static const signIn = _Paths.signIn;
-  static const register = _Paths.register;
   static const dashboard = _Paths.dashboard;
   static const home = _Paths.home;
   static const account = _Paths.account;
@@ -14,6 +13,7 @@ abstract class Routes {
   static const product = _Paths.product;
   static const productDetail = _Paths.productDetail;
   static const checkout = _Paths.checkout;
+  static const confirmOrder = _Paths.confirmOrder;
   static const addProduct = _Paths.addProduct;
   static const banner = _Paths.banner;
   static const addBanner = _Paths.addBanner;
@@ -26,7 +26,6 @@ abstract class Routes {
 abstract class _Paths {
   static const welcome = '/welcome';
   static const signIn = '/sign-in';
-  static const register = '/register';
   static const dashboard = '/';
   static const home = '/home';
   static const account = '/account';
@@ -35,6 +34,7 @@ abstract class _Paths {
   static const product = 'product';
   static const productDetail = 'product-detail';
   static const checkout = 'checkout';
+  static const confirmOrder = '/confirmOrder';
   static const addProduct = 'add-product';
   static const banner = 'banner';
   static const addBanner = 'add-banner';
