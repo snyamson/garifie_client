@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:garifie_client/core/providers/auth.dart';
-import 'package:garifie_client/ui/pages/auth/services/auth_service.dart';
+import 'package:garifie_client/core/services/auth_service.dart';
 import 'package:garifie_client/ui/pages/auth/widgets/app_text_button.dart';
 import 'package:garifie_client/ui/pages/auth/widgets/round_button.dart';
 import 'package:garifie_client/ui/shared/widgets/app_text_input.dart';
@@ -61,19 +61,25 @@ class _LoginViewState extends ConsumerState<LoginView> {
     try {
       if (type == Status.login) {
         await auth.loginUser(
-          _emailController.text,
-          _passwordController.text,
-          context,
-          ref,
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          ref: ref,
+          context: context,
+          onSuccess: () {
+            context.pop();
+          },
         );
         if (!mounted) return;
       } else {
         await auth.registerUser(
-          _emailController.text,
-          _passwordController.text,
-          _usernameController.text,
-          context,
-        );
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+            username: _usernameController.text.trim(),
+            context: context,
+            ref: ref,
+            onSuccess: () {
+              context.pop();
+            });
         if (!mounted) return;
       }
 
@@ -146,27 +152,20 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   name: 'Username',
                   icon: Icons.person,
                   controller: _usernameController,
-                  onChanged: (String value) {
-                    //  ref.read(userProvider.notifier).setUsername(value);
-                  },
                 ),
               const SizedBox(height: 16),
               AppTextInput(
                 name: 'Email address',
                 icon: Icons.email,
                 controller: _emailController,
-                onChanged: (String value) {
-                  //   ref.read(userProvider.notifier).setEmail(value);
-                },
+                keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16),
               AppTextInput(
                 name: 'Password',
                 icon: Icons.lock,
                 controller: _passwordController,
-                onChanged: (String value) {
-                  //    ref.read(userProvider.notifier).setPassword(value);
-                },
+                isPassword: true,
               ),
               const SizedBox(height: 16),
               if (type == Status.login)

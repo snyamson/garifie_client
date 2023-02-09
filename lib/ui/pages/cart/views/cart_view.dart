@@ -203,12 +203,14 @@ class CartView extends ConsumerWidget {
               context: context,
               onPressed: () async {
                 final user = await ref.read(authProvider).getAccount();
+
                 if (user == null) {
                   // ignore: use_build_context_synchronously
                   context.pushNamed(Routes.signIn);
+                } else {
+                  // ignore: use_build_context_synchronously
+                  context.pushNamed(Routes.confirmOrder);
                 }
-                // ignore: use_build_context_synchronously
-                context.pushNamed(Routes.confirmOrder);
               },
               title: 'Checkout',
             ),

@@ -50,6 +50,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   shimmer: ^2.0.0
   fluttertoast: ^8.1.2
+  after_layout: ^1.2.0
 
 dev_dependencies:
   flutter_test:
