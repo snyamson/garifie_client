@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garifie_client/core/models/delivery_address.dart';
 import 'package:garifie_client/ui/pages/auth/views/log_in_view.dart';
 import 'package:garifie_client/ui/pages/dashboard/views/dashboard_view.dart';
 import 'package:garifie_client/ui/pages/delivery_address/views/add_new_address_view.dart';
@@ -58,7 +59,10 @@ class AppPages {
             GoRoute(
               name: Routes.addNewAddress,
               path: Routes.addNewAddress,
-              builder: (_, state) => const AddNewAddressView(),
+              builder: (_, state) => AddNewAddressView(
+                addressToEdit:
+                    state.extra != null ? state.extra as DeliveryAddress : null,
+              ),
             ),
           ]),
     ],

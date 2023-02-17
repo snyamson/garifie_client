@@ -7,17 +7,21 @@ class AppTextInput extends StatelessWidget {
   final bool? isPassword;
   final IconData? icon;
   final Function(String)? onChanged;
+  final Function(String?)? onSaved;
   final int maxLines;
   final TextInputType? keyboardType;
+  final String? initialValue;
   const AppTextInput({
     Key? key,
     this.controller,
     required this.name,
     this.icon,
     this.onChanged,
+    this.onSaved,
     this.isPassword,
     this.maxLines = 1,
     this.keyboardType,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -26,9 +30,11 @@ class AppTextInput extends StatelessWidget {
       controller: controller,
       obscureText: isPassword ?? false,
       textAlign: TextAlign.start,
+      initialValue: initialValue,
       maxLines: maxLines,
       keyboardType: keyboardType,
       onChanged: onChanged,
+      onSaved: onSaved,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: const TextStyle(
         fontWeight: FontWeight.w400,
