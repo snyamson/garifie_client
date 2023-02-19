@@ -12,7 +12,7 @@ class AppTheme {
     errorColor: Colors.red,
     hoverColor: Colors.white54,
     dividerColor: viewLineColor,
-    fontFamily: GoogleFonts.openSans().fontFamily,
+    fontFamily: GoogleFonts.montserrat().fontFamily,
     appBarTheme: const AppBarTheme(
       color: appLayoutBackground,
       iconTheme: IconThemeData(color: textPrimaryColor),

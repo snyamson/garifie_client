@@ -4,9 +4,12 @@ import 'package:garifie_client/ui/pages/auth/views/log_in_view.dart';
 import 'package:garifie_client/ui/pages/dashboard/views/dashboard_view.dart';
 import 'package:garifie_client/ui/pages/delivery_address/views/add_new_address_view.dart';
 import 'package:garifie_client/ui/pages/delivery_address/views/delivery_address_view.dart';
+import 'package:garifie_client/ui/pages/feedback/views/feedback_view.dart';
 import 'package:garifie_client/ui/pages/home/views/home_view.dart';
+import 'package:garifie_client/ui/pages/my_orders/views/my_orders_view.dart';
 import 'package:garifie_client/ui/pages/order_confirmation/views/order_confirmation_view.dart';
 import 'package:garifie_client/ui/pages/product_detail/views/product_detail_view.dart';
+import 'package:garifie_client/ui/pages/settings/views/settings_view.dart';
 import 'package:garifie_client/ui/shared/widgets/keep_alive_wrapper.dart';
 import 'package:go_router/go_router.dart';
 
@@ -52,19 +55,35 @@ class AppPages {
         builder: (_, state) => const OrderConfirmationView(),
       ),
       GoRoute(
-          name: Routes.deliveryAddress,
-          path: Routes.deliveryAddress,
-          builder: (_, state) => const DeliveryAddressView(),
-          routes: [
-            GoRoute(
-              name: Routes.addNewAddress,
-              path: Routes.addNewAddress,
-              builder: (_, state) => AddNewAddressView(
-                addressToEdit:
-                    state.extra != null ? state.extra as DeliveryAddress : null,
-              ),
+        name: Routes.deliveryAddress,
+        path: Routes.deliveryAddress,
+        builder: (_, state) => const DeliveryAddressView(),
+        routes: [
+          GoRoute(
+            name: Routes.addNewAddress,
+            path: Routes.addNewAddress,
+            builder: (_, state) => AddNewAddressView(
+              addressToEdit:
+                  state.extra != null ? state.extra as DeliveryAddress : null,
             ),
-          ]),
+          ),
+        ],
+      ),
+      GoRoute(
+        name: Routes.myOrders,
+        path: Routes.myOrders,
+        builder: (_, state) => const MyOrdersView(),
+      ),
+      GoRoute(
+        name: Routes.feedback,
+        path: Routes.feedback,
+        builder: (_, state) => const FeedbackView(),
+      ),
+      GoRoute(
+        name: Routes.settings,
+        path: Routes.settings,
+        builder: (_, state) => const SettingsView(),
+      ),
     ],
   );
 }

@@ -1,21 +1,26 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
+import 'package:garifie_client/core/models/delivery_address.dart';
 
 class Profile {
   final String id;
   final String username;
   final String email;
-  final String? address;
   final String? phone;
   final String role;
   final String? token;
+  final List<DeliveryAddress> address;
   Profile({
     required this.id,
     required this.username,
     required this.email,
-    this.address,
     this.phone,
     required this.role,
     this.token,
+    required this.address,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,10 +28,10 @@ class Profile {
       'id': id,
       'username': username,
       'email': email,
-      'address': address,
       'phone': phone,
       'role': role,
       'token': token,
+      'address': [],
     };
   }
 
@@ -35,41 +40,41 @@ class Profile {
       id: map['id'] as String,
       username: map['username'] as String,
       email: map['email'] as String,
-      address: map['address'] != null ? map['address'] as String : null,
       phone: map['phone'] != null ? map['phone'] as String : null,
       role: map['role'] as String,
       token: map['token'] != null ? map['token'] as String : null,
+      address: [],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Profile.fromJson(Map<String, dynamic> source) =>
-      Profile.fromMap(source);
+  factory Profile.fromJson(String source) =>
+      Profile.fromMap(json.decode(source) as Map<String, dynamic>);
 
   Profile copyWith({
     String? id,
     String? username,
     String? email,
-    String? address,
     String? phone,
     String? role,
     String? token,
+    List<DeliveryAddress>? address,
   }) {
     return Profile(
       id: id ?? this.id,
       username: username ?? this.username,
       email: email ?? this.email,
-      address: address ?? this.address,
       phone: phone ?? this.phone,
       role: role ?? this.role,
       token: token ?? this.token,
+      address: address ?? this.address,
     );
   }
 
   @override
   String toString() {
-    return 'Profile(id: $id, username: $username, email: $email, address: $address, phone: $phone, role: $role, token: $token)';
+    return 'Profile(id: $id, username: $username, email: $email, phone: $phone, role: $role, token: $token, address: $address)';
   }
 
   @override
@@ -79,10 +84,10 @@ class Profile {
     return other.id == id &&
         other.username == username &&
         other.email == email &&
-        other.address == address &&
         other.phone == phone &&
         other.role == role &&
-        other.token == token;
+        other.token == token &&
+        listEquals(other.address, address);
   }
 
   @override
@@ -90,9 +95,9 @@ class Profile {
     return id.hashCode ^
         username.hashCode ^
         email.hashCode ^
-        address.hashCode ^
         phone.hashCode ^
         role.hashCode ^
-        token.hashCode;
+        token.hashCode ^
+        address.hashCode;
   }
 }

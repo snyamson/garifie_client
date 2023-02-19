@@ -5,21 +5,26 @@ import 'package:nb_utils/nb_utils.dart';
 class Settings extends StatelessWidget {
   final String title;
   final String subtitle;
+  final Function()? onTap;
   const Settings({
     Key? key,
     required this.title,
     required this.subtitle,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(title, style: boldTextStyle()),
-        Text(subtitle, style: secondaryTextStyle(), maxLines: 2),
-      ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(title, style: boldTextStyle()),
+          Text(subtitle, style: secondaryTextStyle(), maxLines: 2),
+        ],
+      ),
     );
   }
 }

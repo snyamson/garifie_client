@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:garifie_client/core/providers/auth.dart';
+import 'package:garifie_client/core/services/user_delivery_address_service.dart';
 import 'package:garifie_client/ui/shared/widgets/show_snack_bar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -8,6 +9,9 @@ class AuthService {
   final SupabaseClient client;
 
   AuthService(this.client);
+
+  UserDeliveryAddressService deliveryAddressService =
+      UserDeliveryAddressService();
 
   Future<User?> getAccount() async {
     print('Log: From getAccountFunction');
@@ -106,7 +110,11 @@ class AuthService {
     final currentUser = await getAccount();
     if (currentUser != null) {
       final userProfile = await getCurrentUserProfile(currentUser.id);
-      ref.read(profileProvider.notifier).setProfile(userProfile!);
+      final address = await deliveryAddressService.getDeliveryAddress();
+      if (userProfile != null) {
+        ref.read(profileProvider.notifier).setProfile(userProfile);
+        ref.read(profileProvider.notifier).setDeliveryAddress(address);
+      }
     } else {
       print('No User');
     }

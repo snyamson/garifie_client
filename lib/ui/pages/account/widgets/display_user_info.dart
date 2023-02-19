@@ -5,8 +5,10 @@ import 'package:garifie_client/ui/pages/account/widgets/account_tile.dart';
 import 'package:garifie_client/ui/pages/account/widgets/no_delivery_address_error.dart';
 import 'package:garifie_client/ui/pages/account/widgets/orders_count.dart';
 import 'package:garifie_client/ui/shared/widgets/button.dart';
+import 'package:garifie_client/utils/routes/app_pages.dart';
 import 'package:garifie_client/utils/theme/app_colors.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:nb_utils/nb_utils.dart';
 
@@ -20,7 +22,7 @@ class DisplayUserInfo extends ConsumerWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(
         vertical:
-            user.address == null ? Dimensions.height8 / 2 : Dimensions.height16,
+            user.address.isEmpty ? Dimensions.height8 / 2 : Dimensions.height16,
         horizontal: 0,
       ),
       child: Column(
@@ -28,8 +30,8 @@ class DisplayUserInfo extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          user.address == null ? const NoDeliveryAddressError() : Container(),
-          user.address == null
+          user.address.isEmpty ? const NoDeliveryAddressError() : Container(),
+          user.address.isEmpty
               ? SizedBox(height: Dimensions.height16)
               : Container(),
           Align(
@@ -65,18 +67,30 @@ class DisplayUserInfo extends ConsumerWidget {
               right: Dimensions.width16,
             ),
             child: Column(
-              children: const [
+              children: [
                 AccountTile(
                   title: 'My Orders',
+                  onPressed: () {
+                    context.pushNamed(Routes.myOrders);
+                  },
                 ),
                 AccountTile(
                   title: 'Delivery Address',
+                  onPressed: () {
+                    context.pushNamed(Routes.deliveryAddress);
+                  },
                 ),
                 AccountTile(
                   title: 'Feedback',
+                  onPressed: () {
+                    context.pushNamed(Routes.feedback);
+                  },
                 ),
                 AccountTile(
                   title: 'Settings',
+                  onPressed: () {
+                    context.pushNamed(Routes.settings);
+                  },
                 ),
               ],
             ),

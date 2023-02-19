@@ -4,7 +4,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 class AccountTile extends StatelessWidget {
   final String? title;
-  final VoidCallback? onPressed;
+  final Function()? onPressed;
   const AccountTile({
     super.key,
     this.title,
@@ -13,7 +13,7 @@ class AccountTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onPressed,
       child: Padding(
         padding: EdgeInsets.only(

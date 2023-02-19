@@ -10,11 +10,15 @@ void showSnackBar(BuildContext context, String text) {
   snackbarKey.currentState?.showSnackBar(snackBar);
 }
 
-void showToast({required String message, required bool isSuccess}) {
+void showToast({
+  required String message,
+  required bool isSuccess,
+  ToastGravity gravity = ToastGravity.BOTTOM,
+}) {
   Fluttertoast.showToast(
     msg: message,
     toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
+    gravity: gravity,
     timeInSecForIosWeb: 1,
     backgroundColor:
         isSuccess ? Colors.greenAccent.shade400 : Colors.redAccent.shade400,

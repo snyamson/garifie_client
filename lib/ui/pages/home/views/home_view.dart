@@ -6,6 +6,7 @@ import 'package:garifie_client/core/providers/current_product.dart';
 import 'package:garifie_client/core/providers/product.dart';
 import 'package:garifie_client/ui/pages/home/widgets/dots_indicator.dart';
 import 'package:garifie_client/ui/shared/widgets/best_product_loader.dart';
+import 'package:garifie_client/ui/shared/widgets/currency_sign.dart';
 import 'package:garifie_client/ui/shared/widgets/product_item.dart';
 import 'package:garifie_client/utils/routes/app_pages.dart';
 import 'package:garifie_client/utils/theme/dimensions.dart';
@@ -184,7 +185,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 5,
+                itemCount: 2,
                 separatorBuilder: (_, __) => SizedBox(
                   height: Dimensions.height8,
                 ),
@@ -193,28 +194,88 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     onTap: () {
                       // SSProductScreen(img: img).launch(context!);
                     },
-                    child: Stack(
+                    child: Column(
                       children: [
-                        Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius10),
-                          ),
-                          child: Image(
-                            image: const AssetImage(
-                                'assets/images/strawberry_gari_banner.jpg'),
-                            height: Dimensions.arrivalProductItemHeight,
-                            width: MediaQuery.of(context).size.width,
-                            fit: BoxFit.cover,
-                          ),
+                        Stack(
+                          children: [
+                            Container(
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(Dimensions.radius10),
+                                  topRight:
+                                      Radius.circular(Dimensions.radius10),
+                                ),
+                              ),
+                              child: Image(
+                                image: const AssetImage(
+                                    'assets/images/crispy_gari.jpg'),
+                                height: 200,
+                                width: MediaQuery.of(context).size.width,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Container(
+                              height: 200,
+                              decoration: BoxDecoration(
+                                color: Colors.black12,
+                                borderRadius:
+                                    BorderRadius.circular(Dimensions.radius10),
+                              ),
+                            ),
+                          ],
                         ),
                         Container(
-                          height: Dimensions.arrivalProductItemHeight,
+                          padding: EdgeInsets.only(
+                            left: Dimensions.width8 / 2,
+                            right: Dimensions.width8 / 2,
+                            bottom: Dimensions.height8,
+                          ),
                           decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade200,
+                                offset: const Offset(0, 0.5),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(Dimensions.radius10),
+                              bottomRight: Radius.circular(Dimensions.radius10),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: Dimensions.height8 / 2),
+                              SizedBox(
+                                width: context.width() / 2 - 12,
+                                child: Text(
+                                  'Coconut Gari',
+                                  maxLines: 2,
+                                  style: boldTextStyle(
+                                    size: Dimensions.font14.toInt(),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: Dimensions.height8 / 2),
+                              Text(
+                                'subtitle fot the description of the coconut gari subtitle fot the description of the coconut gari',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: secondaryTextStyle(
+                                  size: Dimensions.font12.toInt(),
+                                ),
+                              ),
+                              SizedBox(height: Dimensions.height8 / 2),
+                              Text(
+                                '${currencySign().currencySymbol} 30.00',
+                                style: secondaryTextStyle(
+                                  size: Dimensions.font12.toInt(),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

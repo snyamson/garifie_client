@@ -59,10 +59,13 @@ class ProductDetailView extends ConsumerWidget {
               child: currentProduct.variant.isNotEmpty
                   ? Stack(
                       children: [
-                        commonCacheImageWidget(
-                          currentProductImageUrl,
-                          height: Dimensions.productDetailImageHeight + 10,
-                          width: context.width(),
+                        Hero(
+                          tag: currentProduct.name,
+                          child: commonCacheImageWidget(
+                            currentProductImageUrl,
+                            height: Dimensions.productDetailImageHeight + 10,
+                            width: context.width(),
+                          ),
                         ),
                         Positioned(
                           bottom: Dimensions.height8,
@@ -116,10 +119,13 @@ class ProductDetailView extends ConsumerWidget {
                         ),
                       ],
                     )
-                  : commonCacheImageWidget(
-                      currentProduct.productImg,
-                      height: Dimensions.productDetailImageHeight + 10,
-                      width: context.width(),
+                  : Hero(
+                      tag: currentProduct.name,
+                      child: commonCacheImageWidget(
+                        currentProduct.productImg,
+                        height: Dimensions.productDetailImageHeight + 10,
+                        width: context.width(),
+                      ),
                     ),
             ),
             Padding(
@@ -263,9 +269,15 @@ class ProductDetailView extends ConsumerWidget {
                 context: context,
                 title: 'Buy Now',
                 onPressed: () {
-                  showMaterialModalBottomSheet(
+                  showBarModalBottomSheet(
+                    barrierColor: Colors.black38,
+                    backgroundColor: Colors.transparent,
+                    shape: Border.all(color: Colors.transparent),
+                    elevation: 0,
+                    clipBehavior: Clip.hardEdge,
                     isDismissible: false,
-                    enableDrag: false,
+                    enableDrag: true,
+                    duration: const Duration(milliseconds: 300),
                     context: context,
                     builder: (_) => const BuyNowModal(),
                   );

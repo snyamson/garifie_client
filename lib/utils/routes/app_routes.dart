@@ -13,6 +13,9 @@ abstract class Routes {
   static const productDetail = _Paths.productDetail;
   static const checkout = _Paths.checkout;
   static const confirmOrder = _Paths.confirmOrder;
+  static const settings = _Paths.settings;
+  static const feedback = _Paths.feedback;
+  static const myOrders = _Paths.myOrders;
 }
 
 abstract class _Paths {
@@ -26,4 +29,7 @@ abstract class _Paths {
   static const productDetail = 'product-detail';
   static const checkout = 'checkout';
   static const confirmOrder = '/confirmOrder';
+  static const settings = '/settings';
+  static const feedback = '/feedback';
+  static const myOrders = '/myOrders';
 }
